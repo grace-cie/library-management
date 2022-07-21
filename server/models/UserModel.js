@@ -5,12 +5,10 @@ const UserSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      unique: true,
     },
     username: {
       type: String,
       required: true,
-      unique: true,
     },
     image: {
       type: String,
@@ -21,10 +19,6 @@ const UserSchema = new mongoose.Schema(
       unique: true,
     },
     password: {
-      type: String,
-      required: true,
-    },
-    cpassword: {
       type: String,
       required: true,
     },

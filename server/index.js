@@ -3,8 +3,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 
-import authRoute from './routes/auth.js';
-import bookRoute from './routes/bookRoutes.js';
+import authRoute from './routes/authRoute.js';
+import bookRoute from './routes/bookRoute.js';
 
 const app = express();
 dotenv.config();
@@ -17,7 +17,7 @@ app.use(express.json());
 const connect = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL);
-    console.log('connected to MONGO_DB ❤');
+    console.log('connected to MONGO_DB');
   } catch (err) {
     console.log(err);
   }
