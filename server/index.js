@@ -17,15 +17,15 @@ app.use(express.json());
 const connect = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URL);
-    console.log('connected to MONGO DB');
+    console.log('connected to MONGO_DB ❤');
   } catch (err) {
     console.log(err);
   }
 };
 
 //routers
-app.use('/server/auth', authRoute);
-app.use('/server/books', bookRoute);
+app.use('/api/auth', authRoute);
+app.use('/api/books', bookRoute);
 
 //error
 app.use((err, req, res, next) => {
