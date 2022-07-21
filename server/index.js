@@ -27,6 +27,18 @@ const connect = async () => {
 app.use('/server/auth', authRoute);
 app.use('/server/books', bookRoute);
 
+//error
+app.use((err, req, res, next) => {
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || 'something went wrong';
+  return res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: errorMessage,
+    stack: err.stack,
+  });
+});
+
 mongoose.connection.on('error', (err) => {
   console.log(err);
 });
@@ -34,5 +46,5 @@ mongoose.connection.on('error', (err) => {
 const port = process.env.PORT;
 app.listen(port, () => {
   connect();
-  console.log('connected to express');
+  console.log(`connected to Port ${port}`);
 });
