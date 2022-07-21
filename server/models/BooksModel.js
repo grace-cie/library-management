@@ -1,11 +1,18 @@
 import mongoose from 'mongoose';
 
 const BookSchema = new mongoose.Schema({
-  authorId: {
-    type: [String],
-    required: true,
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Author',
   },
   bookTitle: {
+    type: String,
+    required: true,
+  },
+  bookImg: {
+    type: String,
+  },
+  description: {
     type: String,
     required: true,
   },
@@ -13,17 +20,18 @@ const BookSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  reviewId: {
-    type: [String],
+  review: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Review',
   },
   rating: {
     type: Number,
     min: 0,
     max: 5,
   },
-  isAvailable: {
-    type: Boolean,
-    default: true,
+  available: {
+    type: String,
+    required: true,
   },
 });
 
