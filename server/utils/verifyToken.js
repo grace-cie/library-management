@@ -11,14 +11,14 @@ export const verifyToken = (req, res, next) => {
 
   jwt.verify(token, process.env.JWT, (err, user) => {
     if (err) return next(createError(403, 'Token is Not Valid'));
-    req.use = user;
+    req.user = user;
     next();
   });
 };
 
 //user
 export const verifyForUser = (req, res, next) => {
-  verifyToken(req, res, next, () => {
+  verifyToken(req, res, () => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
       next();
     } else {
@@ -29,7 +29,7 @@ export const verifyForUser = (req, res, next) => {
 
 //admin
 export const verifyAdmin = (req, res, next) => {
-  verifyToken(req, res, next, () => {
+  verifyToken(req, res, () => {
     if (req.user.isAdmin) {
       next();
     } else {

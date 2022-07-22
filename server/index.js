@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 
 import authRoute from './routes/authRoute.js';
 import bookRoute from './routes/bookRoute.js';
+import userRoute from './routes/userRoute.js';
 
 const app = express();
 dotenv.config();
@@ -28,6 +29,7 @@ const connect = async () => {
 //routers
 app.use('/api/auth', authRoute);
 app.use('/api/books', bookRoute);
+app.use('/api/users', userRoute);
 
 //error
 app.use((err, req, res, next) => {
