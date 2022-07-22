@@ -48,11 +48,12 @@ export const login = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) return next(createError(404, 'User not Found'));
 
-    const isPasswordCorrect = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordCorrect) {
-      return next(createError(400, 'Wrong password or username!'));
-    }
+    const isPasswordIsCorrect = await bcrypt.compare(
+      req.body.password,
+      user.password
+    );
+    if (!isPasswordIsCorrect)
+      return next(createError(400, 'Wrong password or username'));
 
     //generate token
     const token = jwt.sign(
