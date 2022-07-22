@@ -8,13 +8,12 @@ const Books = () => {
 
   useEffect(() => {
     const fetchAllBooks = async () => {
-      const getBook = await axios.get('http://localhost:8000/server/books');
+      const getBook = await axios.get('http://localhost:8000/api/books');
 
       setBooks(getBook.data);
     };
     fetchAllBooks();
-  }, []);  
-
+  }, []); 
   return (
     <div className='flex content-center flex-wrap justify-center'>
     {books.map((book) => (
