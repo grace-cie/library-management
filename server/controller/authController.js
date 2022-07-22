@@ -5,62 +5,76 @@ import { createError } from '../utils/error.js';
 
 //register user
 export const register = async (req, res, next) => {
-  //destructure the data
-  const { name, username, email, password } = req.body;
+  try {
+    const { name, email, username, password } = req.body;
 
-  //if theres no field inputted
-  if (!name || !username || !email || !password) {
-    return next(createError(400, 'Please fill in all fields'));
-  }
+    if (!name || !email || !username || !password) {
+      next(createError(400, 'Please add all fields'));
+    }
 
-  //if user exist
-  const checkUserExist = await User.findOne({ email });
+    //check if user exists
+    const userExists = await User.findOne({ email });
 
-  if (checkUserExist) {
-    return next(createError(400, 'User already exist'));
-  }
+    if (userExists) {
+      next(createError(400, 'User already exist'));
+    }
 
-  //hash the password for security
-  const salt = bcrypt.genSaltSync(10);
-  const passwordHash = bcrypt.hashSync(password, salt);
+    //hash password
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(req.body.password, salt);
 
-  //register user
-  const newUser = await User.create({
-    name,
-    username,
-    email,
-    password: passwordHash,
-  });
+    //register user
+    const newUser = new User({
+      ...req.body,
+      password: hash,
+    });
 
-  if (newUser) {
-    res.status(201).json({
+    //save and return json information
+    await newUser.save();
+    res.status(200).json({
       _id: newUser.id,
       name: newUser.name,
-      username: newUser.username,
       email: newUser.email,
     });
-  } else {
-    next(createError(400, 'Sorry Please Try Again'));
+  } catch (err) {
+    next(err);
   }
 };
 
 //login user
 export const login = async (req, res, next) => {
-  //destructure the data body
-  const { email, password } = req.body;
+  try {
+    //check for the user
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) return next(createError(404, 'User not Found'));
 
-  //check if user has an email
-  const user = await User.findOne({ email });
+    const isPasswordCorrect = await bcrypt.compare(password, user.password);
 
-  //check the user password
-  if (user && (await bcrypt.compare(password, user.password))) {
-    res.json({
-      _id: user.id,
-      name: user.name,
-      username: user.username,
-      email: user.email,
-    });
-  } else {
-    next(createError(400, 'Invalid Credentials'));
+    if (!isPasswordCorrect) {
+      return next(createError(400, 'Wrong password or username!'));
+    }
+
+    //generate token
+    const token = jwt.sign(
+      {
+        id: user._id,
+        isAdmin: user.isAdmin,
+      },
+      process.env.JWT
+    );
+
+    const { password, isAdmin, ...otherDetails } = user._doc;
+    res
+      .cookie('access_token', token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json({ details: { ...otherDetails }, isAdmin });
+  } catch (err) {
+    next(err);
   }
+};
+
+export const getMe = async (req, res, next) => {
+  res.status(200).json(req.user);
 };

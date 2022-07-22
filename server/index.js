@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 import authRoute from './routes/authRoute.js';
 import bookRoute from './routes/bookRoute.js';
@@ -11,6 +12,7 @@ dotenv.config();
 
 //middlewares
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 
 //connect to mongoDB
