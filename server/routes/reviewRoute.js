@@ -4,16 +4,17 @@ import {
   updateReview,
   writeReview,
 } from '../controller/reviewController.js';
+import { verifyForUser } from '../utils/verifyToken.js';
 
 const router = express.Router();
 
 //create
-router.post('/:bookId', writeReview);
+router.post('/:bookId', verifyForUser, writeReview);
 
 //update
-router.put('/:id', updateReview);
+router.put('/:id', verifyForUser, updateReview);
 
 //delete
-router.delete('/:id/:bookId', deleteReview);
+router.delete('/:id/:bookId', verifyForUser, deleteReview);
 
 export default router;
