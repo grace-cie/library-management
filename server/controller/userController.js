@@ -44,3 +44,16 @@ export const getUsers = async (req, res, next) => {
     next(err);
   }
 };
+
+export const borrowedBooks = async (req, res, next) => {
+  const bookId = req.params.userId;
+
+  try {
+    await User.findByIdAndUpdate(bookId, {
+      $push: { borrowedBooks: bookId },
+    });
+    res.status(200).json('book is borrowed');
+  } catch (error) {
+    next(err);
+  }
+};

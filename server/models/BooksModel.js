@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 const BookSchema = new mongoose.Schema({
   author: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Author',
+    type: String,
+    required: true,
   },
   bookTitle: {
     type: String,
@@ -21,8 +21,7 @@ const BookSchema = new mongoose.Schema({
     required: true,
   },
   review: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Review',
+    type: [String],
   },
   rating: {
     type: Number,
