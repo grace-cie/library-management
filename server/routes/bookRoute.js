@@ -1,19 +1,29 @@
 import express from 'express';
 
 import {
-     createBook,
-     getAllBooks 
+  createBook,
+  deleteBook,
+  getAllBooks,
+  getBook,
+  updateBook,
 } from '../controller/bookController.js';
+import { verifyAdmin } from '../utils/verifyToken.js';
 
 const router = express.Router();
 
-
 //create
-router.post('/', createBook)
+router.post('/', verifyAdmin, createBook);
 
+//updated
+router.put('/:id', verifyAdmin, updateBook);
 
+//delete
+router.delete('/:id', verifyAdmin, deleteBook);
 
 //get
-router.get('/', getAllBooks)
+router.get('/:id', getBook);
 
-export default router
+//getAll
+router.get('/', getAllBooks);
+
+export default router;
