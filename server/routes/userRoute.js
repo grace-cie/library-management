@@ -1,5 +1,6 @@
 import express from 'express';
 import {
+  borrowedBooks,
   deleteUser,
   getUser,
   getUsers,
@@ -21,5 +22,8 @@ router.get('/:id', verifyForUser, getUser);
 
 //getall user
 router.get('/', getUsers);
+
+//get borrowed books
+router.get('/borrowed-books', verifyForUser, borrowedBooks);
 
 export default router;

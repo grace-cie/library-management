@@ -21,8 +21,7 @@ const BookSchema = new mongoose.Schema({
     required: true,
   },
   review: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Review',
+    type: [String],
   },
   rating: {
     type: Number,

@@ -23,8 +23,7 @@ const UserSchema = new mongoose.Schema(
       required: true,
     },
     borrowedBooks: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Book',
+      type: [String],
     },
     bookedDate: {
       type: Date,
