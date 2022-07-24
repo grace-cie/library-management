@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
 import { AiOutlineMenu, AiOutlineClose } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { FiLogOut } from 'react-icons/fi';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout, reset } from '../redux/auth/authSlice';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
   const handleNav = () => {
     setNav(!nav);
+  };
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+  const onLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate('/login');
   };
 
   return (
@@ -22,12 +35,22 @@ const Navbar = () => {
             <Link to='/users'>
               <li>Users</li>
             </Link>
-            <Link to='/login'>
-              <li>Login</li>
-            </Link>
-            <Link to='/register'>
-              <li>Register</li>
-            </Link>
+            {user ? (
+              <button onClick={onLogout}>
+                <li className='text-xl'>
+                  <FiLogOut />
+                </li>
+              </button>
+            ) : (
+              <>
+                <Link to='/login'>
+                  <li>Login</li>
+                </Link>
+                <Link to='/register'>
+                  <li>Register</li>
+                </Link>
+              </>
+            )}
           </ul>
         </div>
 
@@ -55,12 +78,22 @@ const Navbar = () => {
             <Link to='/users'>
               <li>Users</li>
             </Link>
-            <Link to='/login'>
-              <li>Login</li>
-            </Link>
-            <Link to='/register'>
-              <li>Register</li>
-            </Link>
+            {user ? (
+              <button onClick={onLogout}>
+                <li className='text-xl'>
+                  <FiLogOut />
+                </li>
+              </button>
+            ) : (
+              <>
+                <Link to='/login'>
+                  <li>Login</li>
+                </Link>
+                <Link to='/register'>
+                  <li>Register</li>
+                </Link>
+              </>
+            )}
           </ul>
         </div>
       </div>

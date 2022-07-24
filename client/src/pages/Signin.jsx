@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { login, reset } from '../redux/auth/authSlice';
+import Loading from '../components/Loading';
 
 const Signin = () => {
   const [loginData, setLoginData] = useState({
@@ -9,6 +14,13 @@ const Signin = () => {
 
   const { email, password } = loginData;
 
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
   const handleChange = (e) => {
     setLoginData((prevState) => ({
       ...prevState,
@@ -16,9 +28,32 @@ const Signin = () => {
     }));
   };
 
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    const userData = {
+      email,
+      password,
+    };
+
+    dispatch(login(userData));
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className='max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8'>

@@ -1,24 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { register, reset } from '../redux/auth/authSlice';
+import Loading from '../components/Loading';
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
     name: '',
+    username: '',
     email: '',
     password: '',
     confirmPassword: '',
   });
 
-  const { name, email, password, confirmPassword } = registerData;
+  const { name, username, email, password, confirmPassword } = registerData;
+
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+
+    if (isSuccess || user) {
+      navigate('/');
+    }
+
+    dispatch(reset());
+  }, [user, isError, isSuccess, message, navigate, dispatch]);
 
   const handleChange = (e) => {
     setRegisterData((prevState) => ({
       ...prevState,
-      [e.target.value]: e.target.name,
+      [e.target.name]: e.target.value,
     }));
   };
 
-  const handleRegister = () => {};
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      toast.error('password do not  match');
+    } else {
+      const userData = {
+        name,
+        username,
+        email,
+        password,
+      };
+
+      dispatch(register(userData));
+    }
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <div className='max-w-screen-xl px-4 py-16 mx-auto sm:px-6 lg:px-8'>
@@ -28,9 +72,7 @@ const Register = () => {
             Register
           </h1>
           <div>
-            <label for='email' className='text-sm font-medium'>
-              Name
-            </label>
+            <label className='text-sm font-medium'>Name</label>
             <div className='relative mt-1'>
               <input
                 type='text'
@@ -44,9 +86,21 @@ const Register = () => {
             </div>
           </div>
           <div>
-            <label for='email' className='text-sm font-medium'>
-              Email
-            </label>
+            <label className='text-sm font-medium'>username</label>
+            <div className='relative mt-1'>
+              <input
+                type='text'
+                id='username'
+                name='username'
+                className='w-full p-3 pr-12 text-sm rounded-lg shadow-sm'
+                placeholder='Enter username'
+                value={username}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+          <div>
+            <label className='text-sm font-medium'>Email</label>
             <div className='relative mt-1'>
               <input
                 type='email'
@@ -60,9 +114,7 @@ const Register = () => {
             </div>
           </div>
           <div>
-            <label for='password' className='text-sm font-medium'>
-              Password
-            </label>
+            <label className='text-sm font-medium'>Password</label>
             <div className='relative mt-1'>
               <input
                 type='password'
@@ -76,9 +128,7 @@ const Register = () => {
             </div>
           </div>
           <div>
-            <label for='password' className='text-sm font-medium'>
-              Confirm Password
-            </label>
+            <label className='text-sm font-medium'>Confirm Password</label>
             <div className='relative mt-1'>
               <input
                 type='password'
