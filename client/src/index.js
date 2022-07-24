@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Signin from './pages/Signin';
 import Register from './pages/Register';
-import Users from './pages/Users';
+import Profile from './pages/Profile';
 import Home from './pages/Home';
 
 //redux
@@ -26,7 +26,7 @@ root.render(
           <Route path='books' element={<Home />} />
           <Route path='login' element={<Signin />} />
           <Route path='register' element={<Register />} />
-          <Route path='users' element={<Users />} />
+          <Route path='profile' element={<Profile />} />
         </Routes>
       </BrowserRouter>
       <ToastContainer />

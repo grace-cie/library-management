@@ -32,8 +32,8 @@ const Navbar = () => {
             <Link to='/books'>
               <li>Books</li>
             </Link>
-            <Link to='/users'>
-              <li>Users</li>
+            <Link to='/profile'>
+              <li>Profile</li>
             </Link>
             {user ? (
               <button onClick={onLogout}>
@@ -72,11 +72,11 @@ const Navbar = () => {
           }
         >
           <ul>
-            <Link to='/users'>
+            <Link to='/books'>
               <li>Books</li>
             </Link>
-            <Link to='/users'>
-              <li>Users</li>
+            <Link to='/profile'>
+              <li>Profile</li>
             </Link>
             {user ? (
               <button onClick={onLogout}>

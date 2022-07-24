@@ -13,6 +13,7 @@ const Books = () => {
     };
     fetchAllBooks();
   }, []);
+
   return (
     <div className='flex content-center flex-wrap justify-center'>
       {books.map((book) => (

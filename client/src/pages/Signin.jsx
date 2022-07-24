@@ -103,6 +103,9 @@ const Signin = () => {
               <span className='underline'> Register Here</span>
             </Link>
           </p>
+          <p className='text-sm text-center text-gray-500'>
+            <Link to='/'>Go Back To Hompage</Link>
+          </p>
         </form>
       </div>
     </div>
