@@ -30,7 +30,7 @@ const BookSchema = new mongoose.Schema({
   },
   available: {
     type: String,
-    required: true,
+    default: null,
   },
 });
 
