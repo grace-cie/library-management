@@ -8,7 +8,7 @@ const register = async (userData) => {
   const response = await axios.post(API_URL_REGISTER, userData);
 
   if (response.data) {
-    localStorage.setItem('access-token', JSON.stringify(response.data));
+    localStorage.setItem('user', JSON.stringify(response.data));
   }
 
   return response.data;
@@ -16,7 +16,7 @@ const register = async (userData) => {
 
 //logout user
 const logout = () => {
-  localStorage.removeItem('access-token');
+  localStorage.removeItem('user');
 };
 
 //login user
@@ -24,7 +24,7 @@ const login = async (userData) => {
   const response = await axios.post(API_URL_LOGIN, userData);
 
   if (response.data) {
-    localStorage.setItem('access-token', JSON.stringify(response.data));
+    localStorage.setItem('user', JSON.stringify(response.data));
   }
 
   return response.data;
