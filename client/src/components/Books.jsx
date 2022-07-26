@@ -3,6 +3,7 @@ import bookimg from '../assets/bookimg.jpg';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBooks } from '../redux/books/bookSlice';
 import Loading from './Loading';
+import { Link } from 'react-router-dom';
 
 const Books = () => {
   const book = useSelector((state) => state.books);
@@ -24,11 +25,13 @@ const Books = () => {
               key={book._id}
             >
               <div>
-                <img
-                  className='w-full'
-                  src={bookimg}
-                  alt='sunset in the mountains'
-                />
+                <Link to={`${book._id}`}>
+                  <img
+                    className='w-full'
+                    src={bookimg}
+                    alt='sunset in the mountains'
+                  />
+                </Link>
                 <div className='px-6 py-4'>
                   <div className='font bold text-xl mb-2'>{book.bookTitle}</div>
                   <div className='text-gray-500 text-sm mb-2'>

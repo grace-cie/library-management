@@ -14,23 +14,27 @@ export const fetchBooks = createAsyncThunk('api/fetchBooks', async () => {
   return response.data;
 });
 
+export const fetchSingleBook = (state, bookId) =>
+  state.books.books.find((book) => book.id === bookId);
+
 const bookSlice = createSlice({
   name: 'books',
   initialState,
   extraReducers: (builder) => {
-    builder.addCase(fetchBooks.pending, (state) => {
-      state.isLoading = true;
-    });
-    builder.addCase(fetchBooks.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.books = action.payload;
-      state.error = '';
-    });
-    builder.addCase(fetchBooks.rejected, (state, action) => {
-      state.isLoading = false;
-      state.books = [];
-      state.error = action.error.message;
-    });
+    builder
+      .addCase(fetchBooks.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchBooks.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.books = action.payload;
+        state.error = '';
+      })
+      .addCase(fetchBooks.rejected, (state, action) => {
+        state.isLoading = false;
+        state.books = [];
+        state.error = action.error.message;
+      });
   },
 });
 

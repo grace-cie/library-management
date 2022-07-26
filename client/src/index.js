@@ -15,6 +15,8 @@ import { Provider } from 'react-redux';
 //toastify
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BookPage from './pages/BookPage';
+import BookInfo from './pages/BookInfo';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,9 +24,10 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<App />} />
-          <Route path='books' element={<Home />} />
+          <Route path='/' element={<Home />} />
           <Route path='login' element={<Signin />} />
+          <Route path='books' element={<BookPage />} />
+          <Route path='books/:bookId' element={<BookInfo />} />
           <Route path='register' element={<Register />} />
           <Route path='profile' element={<Profile />} />
         </Routes>

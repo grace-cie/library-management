@@ -1,16 +1,16 @@
 import React from 'react';
+import Books from '../components/Books';
 import Footer from '../components/Footer';
 import Navbar from '../components/Navbar';
-import Section from '../components/Section';
 
-const Home = () => {
+const BookPage = () => {
   return (
-    <div>
+    <>
       <Navbar />
-      <Section />
+      <Books />
       <Footer />
-    </div>
+    </>
   );
 };
 
-export default Home;
+export default BookPage;

@@ -24,9 +24,11 @@ const Navbar = () => {
   return (
     <div className='w-full h-[90px]'>
       <div className='max-w-[1240px] mx-auto px-4 flex justify-between items-center h-full'>
-        <div>
-          <h1 className='text-[#ef5b0ccb]'>Booker</h1>
-        </div>
+        <Link to='/'>
+          <div>
+            <h1 className='text-[#ef5b0ccb]'>Booker</h1>
+          </div>
+        </Link>
         <div className='hidden md:flex'>
           <ul className='flex text-gray-600 items-center'>
             <Link to='/books'>
