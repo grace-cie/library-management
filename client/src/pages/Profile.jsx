@@ -19,7 +19,7 @@ const Profile = () => {
     <div>
       <Navbar />
       <div className='w-full h-screen bg-zinc-200 flex flex-col justify-between'>
-        <p>Your Profile</p>
+        <h1>Welcome {user && user.details.name}</h1>
       </div>
       <Footer />
     </div>

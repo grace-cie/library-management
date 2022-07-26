@@ -33,7 +33,7 @@ const Signin = () => {
       toast.error(message);
     }
 
-    if (isSuccess || user) {
+    if (isSuccess) {
       navigate('/');
     }
 
