@@ -14,9 +14,6 @@ export const fetchBooks = createAsyncThunk('api/fetchBooks', async () => {
   return response.data;
 });
 
-export const fetchSingleBook = (state, bookId) =>
-  state.books.books.find((book) => book.id === bookId);
-
 const bookSlice = createSlice({
   name: 'books',
   initialState,

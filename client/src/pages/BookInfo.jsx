@@ -31,7 +31,7 @@ const BookInfo = () => {
       setLoading(false);
     };
     getBook();
-  }, []);
+  }, [bookId]);
 
   return (
     <>
@@ -91,7 +91,7 @@ const BookInfo = () => {
           </div>
         </div>
       )}
-      <Comment />
+      <Comment bookId={bookId} />
 
       <Footer />
     </>
