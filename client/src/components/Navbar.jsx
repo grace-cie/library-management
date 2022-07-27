@@ -69,7 +69,7 @@ const Navbar = () => {
         <div
           className={
             nav
-              ? 'w-full  text-gray-600 absolute top-[90px] left-0 flex justify-center text-center'
+              ? 'w-full  text-gray-800 bg-orange-400 h-100vh absolute top-[90px] left-0 flex justify-center text-center text-xl'
               : 'absolute left-[-100%]'
           }
         >

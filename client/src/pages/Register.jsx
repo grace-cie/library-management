@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { Slide, toast } from 'react-toastify';
 import { register, reset } from '../redux/auth/authSlice';
 import Loading from '../components/Loading';
 
@@ -26,7 +26,10 @@ const Register = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      toast.error(message, {
+        transition: Slide,
+        theme: 'colored',
+      });
     }
 
     if (isSuccess) {
@@ -48,7 +51,10 @@ const Register = () => {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      toast.error('password do not  match');
+      toast.error('password do not  match', {
+        transition: Slide,
+        theme: 'colored',
+      });
     } else {
       const userData = {
         name,
@@ -144,7 +150,7 @@ const Register = () => {
           </div>
           <button
             type='submit'
-            className='block w-full px-5 py-3 text-sm font-medium text-white bg-blue-400 rounded-lg mt-5 '
+            className='block w-full px-5 py-3 text-sm font-medium text-white bg-indigo-600 rounded-lg mt-5 '
             onClick={handleRegister}
           >
             Register

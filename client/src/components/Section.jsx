@@ -18,7 +18,7 @@ const Section = () => {
                 <img
                   src={hello}
                   alt='hello-cat'
-                  className='hidden sm:block h-[100px] w-[200px] absolute top-0 ml-[220px] mt-[100px]'
+                  className='hidden md:block h-[100px] w-[200px] absolute top-0 ml-[220px] mt-[100px]'
                 />
                 <h1 className='text-4xl leading-[44px] md:text-5xl md:leading-tight lg:text-7xl lg:leading-[1.2] font-bold md:tracking-[-2px]'>
                   Books for <br />

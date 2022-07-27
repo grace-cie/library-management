@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { Slide, toast } from 'react-toastify';
 import { login, reset } from '../redux/auth/authSlice';
 import Loading from '../components/Loading';
 
@@ -30,7 +30,7 @@ const Signin = () => {
 
   useEffect(() => {
     if (isError) {
-      toast.error(message);
+      toast.error(message, { transition: Slide, theme: 'colored' });
     }
 
     if (isSuccess) {
@@ -92,7 +92,7 @@ const Signin = () => {
           </div>
           <button
             type='submit'
-            className='block w-full px-5 py-3 text-sm font-medium text-white bg-blue-400 rounded-lg mt-5 '
+            className='block w-full px-5 py-3 text-sm font-medium text-white bg-indigo-600 rounded-lg mt-5 '
             onClick={handleLogin}
           >
             Sign in
