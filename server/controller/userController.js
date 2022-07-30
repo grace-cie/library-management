@@ -1,8 +1,7 @@
 import User from '../models/UserModel.js';
-import { createError } from '../utils/error.js';
 
 //update
-export const updateUser = async (req, res, next) => {
+export const updateUser = async (req, res) => {
   try {
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
@@ -16,7 +15,7 @@ export const updateUser = async (req, res, next) => {
 };
 
 //delete
-export const deleteUser = async (req, res, next) => {
+export const deleteUser = async (req, res) => {
   try {
     await User.findByIdAndDelete(req.params.id);
     res.status(200).json('User is Deleted');
@@ -26,7 +25,7 @@ export const deleteUser = async (req, res, next) => {
 };
 
 //get
-export const getUser = async (req, res, next) => {
+export const getUser = async (req, resxt) => {
   try {
     const user = await User.findById(req.params.id);
     res.status(200).json(user);
@@ -36,7 +35,7 @@ export const getUser = async (req, res, next) => {
 };
 
 //getAll
-export const getUsers = async (req, res, next) => {
+export const getUsers = async (req, res) => {
   try {
     const users = await User.find();
     res.status(200).json(users);
@@ -45,7 +44,7 @@ export const getUsers = async (req, res, next) => {
   }
 };
 
-export const borrowedBooks = async (req, res, next) => {
+export const borrowedBooks = async (req, res) => {
   const bookId = req.params.userId;
 
   try {
