@@ -1,21 +1,22 @@
 import User from '../models/UserModel.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import { createError } from '../utils/error.js';
 
 //register user
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   try {
     const { name, email, username, password } = req.body;
 
     if (!name || !email || !username || !password) {
-      return res.status(400).json({ mesage: 'Please add all fields' });
+      next(createError(400, 'Please add all fields'));
     }
 
     //check if user exists
     const userExists = await User.findOne({ email });
 
     if (userExists) {
-      return res.status(404).json({ mesage: 'User already exist' });
+      next(createError(400, 'User already exist'));
     }
 
     //hash password
@@ -36,23 +37,23 @@ export const register = async (req, res) => {
       email: newUser.email,
     });
   } catch (err) {
-    res.status(500).json({ message: 'Something went wrong' });
+    next(err);
   }
 };
 
 //login user
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     //check for the user
     const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(404).json({ message: 'User not found' });
+    if (!user) return next(createError(404, 'User not Found'));
 
     const isPasswordIsCorrect = await bcrypt.compare(
       req.body.password,
       user.password
     );
     if (!isPasswordIsCorrect)
-      return res.status(400).json({ message: 'Invalid Credentials' });
+      return next(createError(400, 'Wrong password or username'));
 
     //generate token
     const token = jwt.sign(
@@ -64,8 +65,13 @@ export const login = async (req, res) => {
     );
 
     const { password, isAdmin, ...otherDetails } = user._doc;
-    res.status(200).json({ details: { ...otherDetails }, isAdmin });
+    res
+      .cookie('access_token', token, {
+        httpOnly: true,
+      })
+      .status(200)
+      .json({ details: { ...otherDetails }, isAdmin });
   } catch (err) {
-    res.status(500).json({ mesage: 'something went wrong' });
+    next(err);
   }
 };
