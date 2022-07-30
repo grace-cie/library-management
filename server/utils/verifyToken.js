@@ -1,15 +1,16 @@
 import jwt from 'jsonwebtoken';
+import { createError } from './error.js';
 
 //middlware
 export const verifyToken = (req, res, next) => {
-  const token = req.headers.authorization.split(' ')[1];
+  const token = req.cookies.access_token;
 
   if (!token) {
-    return res.status(404).json({ message: 'sorry not authenticated' });
+    return next(createError(404, 'Sorry Not Authenticated'));
   }
 
   jwt.verify(token, process.env.JWT, (err, user) => {
-    return res.status(403).json({ messag: 'token is not valid' });
+    if (err) return next(createError(403, 'Token is Not Valid'));
     req.user = user;
     next();
   });
@@ -21,7 +22,7 @@ export const verifyForUser = (req, res, next) => {
     if (req.user.id === req.params.id || req.user.isAdmin) {
       next();
     } else {
-      return res.status(403).json({ message: 'Not Authorized' });
+      return next(createError(403, 'Not Authorized'));
     }
   });
 };
@@ -32,7 +33,7 @@ export const verifyAdmin = (req, res, next) => {
     if (req.user.isAdmin) {
       next();
     } else {
-      return res.status(403).json({ messge: 'You are not authorized' });
+      return next(createError(403, 'You are not authorized'));
     }
   });
 };

@@ -1,7 +1,6 @@
 import express from 'express';
 
 import {
-  commentBooks,
   createBook,
   deleteBook,
   getAllBooks,
@@ -26,8 +25,5 @@ router.get('/:id', getBook);
 
 //getAll
 router.get('/', getAllBooks);
-
-//comment
-router.post('/:id/commentBooks', commentBooks);
 
 export default router;
