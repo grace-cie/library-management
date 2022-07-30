@@ -1,37 +1,64 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+
+import * as api from './bookAPI';
 
 const initialState = {
   isLoading: false,
+  book: {},
   books: [],
   error: '',
 };
 
-const API_URL_GETBOOKS = '/api/books';
+export const fetchBooks = createAsyncThunk(
+  'api/fetchBooks',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await api.getAllBooks();
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
-export const fetchBooks = createAsyncThunk('api/fetchBooks', async () => {
-  const response = await axios.get(API_URL_GETBOOKS);
-  return response.data;
-});
+export const getBook = createAsyncThunk(
+  'api/fetchBook',
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await api.getBookById(id);
+      return response.data;
+    } catch (err) {
+      return rejectWithValue(err.response.data);
+    }
+  }
+);
 
 const bookSlice = createSlice({
   name: 'books',
   initialState,
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchBooks.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchBooks.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.books = action.payload;
-        state.error = '';
-      })
-      .addCase(fetchBooks.rejected, (state, action) => {
-        state.isLoading = false;
-        state.books = [];
-        state.error = action.error.message;
-      });
+  extraReducers: {
+    [fetchBooks.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [fetchBooks.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.books = action.payload;
+    },
+    [fetchBooks.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.message;
+    },
+    [getBook.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+    [getBook.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.book = action.payload;
+    },
+    [getBook.rejected]: (state, action) => {
+      state.isLoading = false;
+      state.error = action.payload.message;
+    },
   },
 });
 

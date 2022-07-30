@@ -27,7 +27,7 @@ root.render(
           <Route path='/' element={<Home />} />
           <Route path='login' element={<Signin />} />
           <Route path='books' element={<BookPage />} />
-          <Route path='books/:bookId' element={<BookInfo />} />
+          <Route path='books/:id' element={<BookInfo />} />
           <Route path='register' element={<Register />} />
           <Route path='profile' element={<Profile />} />
         </Routes>
