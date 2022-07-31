@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import girlBook from '../assets/bookgirl.jpg';
 import hello from '../assets/hellocat.gif';
 
@@ -39,7 +40,7 @@ const Section = () => {
                   Not sure what to read next? Explore our books for free
                 </p>
                 <button className='flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10'>
-                  Get Started
+                  <Link to='/login'>Get Started</Link>
                 </button>
               </div>
               <div className='hidden lg:flex flex-1 justify-end items-end h-full'>
