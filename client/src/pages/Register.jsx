@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { Slide, toast } from 'react-toastify';
 import { register, reset } from '../redux/auth/authSlice';
 import Loading from '../components/Loading';
+import validator from 'validator'
+
 
 const Register = () => {
   const [registerData, setRegisterData] = useState({
@@ -15,10 +17,17 @@ const Register = () => {
     confirmPassword: '',
   });
 
+  const [Eerror, setEerror] = useState(null);
+  const [Nerror, setNerror] = useState(null);
+  const [Uerror, setUerror] = useState(null);
+  const [Perror, setPerror] = useState(null);
+  const [cPerror, setcPerror] = useState(null);
+
   const { name, username, email, password, confirmPassword } = registerData;
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
 
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (state) => state.auth
@@ -40,6 +49,7 @@ const Register = () => {
     dispatch(reset());
   }, [user, isError, isSuccess, message, navigate, dispatch]);
 
+
   const handleChange = (e) => {
     setRegisterData((prevState) => ({
       ...prevState,
@@ -47,14 +57,46 @@ const Register = () => {
     }));
   };
 
+
   const handleRegister = (e) => {
     e.preventDefault();
+    const n = 'Name'
+    const u = 'UserName'
+    const em = 'Email'
+    const p = 'Password'
 
-    if (password !== confirmPassword) {
-      toast.error('password do not  match', {
-        transition: Slide,
-        theme: 'colored',
-      });
+    if(name.length === 0){
+      setNerror(`please provide a ${n}`)
+    } else if(name.length <= 2){
+      setNerror(`${n} must be more than 2 characters`)
+    } else {
+      setNerror(null)
+    } 
+    if(username.length === 0){
+      setUerror(`Please provide a ${u}`)
+    } else if(username.length <= 4){
+      setUerror(`${u} must be more than 4 Characters`);
+    } else {
+      setUerror(null)
+    }
+    if(email.length === 0){
+      setEerror(`Please provide an ${em}`);
+    } else if(!validator.isEmail(email)){
+      setEerror(`${em} is invalid`)
+    } else {
+      setEerror(null)
+    }
+    if(password.length === 0){
+      setPerror(`Please provide a ${p}`);
+    } else if (password.length <= 5 ){
+      setPerror(`${p} must be more than 5 characters`);
+    } else {
+      setPerror(null)
+    }
+    if (confirmPassword.length === 0) {
+      setcPerror(`please confirm your ${p}`);
+    } else if (password !== confirmPassword){
+      setcPerror(`${p}'s do not match`);
     } else {
       const userData = {
         name,
@@ -64,8 +106,13 @@ const Register = () => {
       };
 
       dispatch(register(userData));
+      setRegisterData(e.target.value)
     }
+
+    
   };
+
+  
 
   if (isLoading) {
     return <Loading />;
@@ -90,6 +137,7 @@ const Register = () => {
                 value={name}
                 onChange={handleChange}
               />
+              {Nerror && <h2 style={{color: 'red', fontSize: 14}}>{Nerror}</h2>}
             </div>
           </div>
           <div>
@@ -104,6 +152,7 @@ const Register = () => {
                 value={username}
                 onChange={handleChange}
               />
+              {Uerror && <h2 style={{color: 'red', fontSize: 14}}>{Uerror}</h2>}
             </div>
           </div>
           <div>
@@ -119,6 +168,7 @@ const Register = () => {
                 onChange={handleChange}
               />
             </div>
+            {Eerror && <h2 style={{color: 'red', fontSize: 14}}>{Eerror}</h2>}
           </div>
           <div>
             <label className='text-sm font-medium'>Password</label>
@@ -132,6 +182,7 @@ const Register = () => {
                 value={password}
                 onChange={handleChange}
               />
+              {Perror && <h2 style={{color: 'red', fontSize: 14}}>{Perror}</h2>}
             </div>
           </div>
           <div>
@@ -146,6 +197,7 @@ const Register = () => {
                 value={confirmPassword}
                 onChange={handleChange}
               />
+              {cPerror && <h2 style={{color: 'red', fontSize: 14}}>{cPerror}</h2>}
             </div>
           </div>
           <button
