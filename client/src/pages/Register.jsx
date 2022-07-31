@@ -71,43 +71,46 @@ const Register = () => {
       setNerror(`${n} must be more than 2 characters`)
     } else {
       setNerror(null)
+      if(username.length === 0){
+        setUerror(`Please provide a ${u}`)
+      } else if(username.length <= 4){
+        setUerror(`${u} must be more than 4 Characters`);
+      } else if (username.length !== 0 || username.length >= 4){
+        setUerror(null)
+        if(email.length === 0){
+          setEerror(`Please provide an ${em}`);
+        } else if(!validator.isEmail(email)){
+          setEerror(`${em} is invalid`)
+        } else if (email.length !== 0 || validator.isEmail(email)) {
+          setEerror(null)
+          if(password.length === 0){
+            setPerror(`Please provide a ${p}`);
+          } else if (password.length <= 5 ){
+            setPerror(`${p} must be more than 5 characters`);
+          } else {
+            setPerror(null)
+            if (confirmPassword.length === 0) {
+              setcPerror(`please confirm your ${p}`);
+            } else if (password !== confirmPassword){
+              setcPerror(`${p}'s do not match`);
+            } else {
+              const userData = {
+                name,
+                username,
+                email,
+                password,
+              };
+        
+              dispatch(register(userData));
+            }
+          }
+        }
+      }
     } 
-    if(username.length === 0){
-      setUerror(`Please provide a ${u}`)
-    } else if(username.length <= 4){
-      setUerror(`${u} must be more than 4 Characters`);
-    } else {
-      setUerror(null)
-    }
-    if(email.length === 0){
-      setEerror(`Please provide an ${em}`);
-    } else if(!validator.isEmail(email)){
-      setEerror(`${em} is invalid`)
-    } else {
-      setEerror(null)
-    }
-    if(password.length === 0){
-      setPerror(`Please provide a ${p}`);
-    } else if (password.length <= 5 ){
-      setPerror(`${p} must be more than 5 characters`);
-    } else {
-      setPerror(null)
-    }
-    if (confirmPassword.length === 0) {
-      setcPerror(`please confirm your ${p}`);
-    } else if (password !== confirmPassword){
-      setcPerror(`${p}'s do not match`);
-    } else {
-      const userData = {
-        name,
-        username,
-        email,
-        password,
-      };
-
-      dispatch(register(userData));
-      setRegisterData(e.target.value)
-    }
+     
+    
+    
+    
 
     
   };
@@ -128,21 +131,44 @@ const Register = () => {
           <div>
             <label className='text-sm font-medium'>Name</label>
             <div className='relative mt-1'>
-              <input
-                type='text'
-                id='name'
-                name='name'
-                className='w-full p-3 pr-12 text-sm rounded-lg shadow-sm'
-                placeholder='Enter name'
-                value={name}
-                onChange={handleChange}
+              {Nerror ? (
+                <input
+                  type='text'
+                  id='name'
+                  name='name'
+                  className='w-full p-3 pr-12 text-sm rounded-lg shadow-sm border-red-600'
+                  placeholder='Enter name'
+                  value={name}
+                  onChange={handleChange}
               />
+              ) : (<>
+                <input
+                  type='text'
+                  id='name'
+                  name='name'
+                  className='w-full p-3 pr-12 text-sm rounded-lg shadow-sm'
+                  placeholder='Enter name'
+                  value={name}
+                  onChange={handleChange}
+                />
+              </>)}
               {Nerror && <h2 style={{color: 'red', fontSize: 14}}>{Nerror}</h2>}
             </div>
           </div>
           <div>
             <label className='text-sm font-medium'>username</label>
             <div className='relative mt-1'>
+            {Uerror ? (
+              <input
+                type='text'
+                id='username'
+                name='username'
+                className='w-full p-3 pr-12 text-sm rounded-lg shadow-sm border-red-600'
+                placeholder='Enter username'
+                value={username}
+                onChange={handleChange}
+              />
+            ) : (<>
               <input
                 type='text'
                 id='username'
@@ -152,12 +178,24 @@ const Register = () => {
                 value={username}
                 onChange={handleChange}
               />
+            </>)}
               {Uerror && <h2 style={{color: 'red', fontSize: 14}}>{Uerror}</h2>}
             </div>
           </div>
           <div>
             <label className='text-sm font-medium'>Email</label>
             <div className='relative mt-1'>
+            {Eerror ? (
+              <input
+              type='email'
+              id='email'
+              name='email'
+              className='w-full p-3 pr-12 text-sm rounded-lg shadow-sm border-red-600'
+              placeholder='Enter email'
+              value={email}
+              onChange={handleChange}
+            />
+            ) : (<>
               <input
                 type='email'
                 id='email'
@@ -167,13 +205,25 @@ const Register = () => {
                 value={email}
                 onChange={handleChange}
               />
+            </>)}
             </div>
             {Eerror && <h2 style={{color: 'red', fontSize: 14}}>{Eerror}</h2>}
           </div>
           <div>
             <label className='text-sm font-medium'>Password</label>
             <div className='relative mt-1'>
-              <input
+            {Perror ? (
+							<input
+                type='password'
+                id='password'
+                name='password'
+                className='w-full p-3 pr-12 text-sm rounded-lg shadow-sm border-red-600'
+                placeholder='Enter password'
+                value={password}
+                onChange={handleChange}
+            />
+						) : (<>
+							<input
                 type='password'
                 id='password'
                 name='password'
@@ -182,13 +232,25 @@ const Register = () => {
                 value={password}
                 onChange={handleChange}
               />
-              {Perror && <h2 style={{color: 'red', fontSize: 14}}>{Perror}</h2>}
+						</>)} 
+              {Perror && <h2 style={{color: 'red', fontSize: 14,}}>{Perror}</h2>}
             </div>
           </div>
           <div>
             <label className='text-sm font-medium'>Confirm Password</label>
             <div className='relative mt-1'>
+            {cPerror ? (
               <input
+              type='password'
+              id='confirmPassword'
+              name='confirmPassword'
+              className='w-full p-3 pr-12 text-sm rounded-lg shadow-sm border-red-600'
+              placeholder='confirm password'
+              value={confirmPassword}
+              onChange={handleChange}
+            />
+            ) : (<>
+            <input
                 type='password'
                 id='confirmPassword'
                 name='confirmPassword'
@@ -197,6 +259,7 @@ const Register = () => {
                 value={confirmPassword}
                 onChange={handleChange}
               />
+            </>)}
               {cPerror && <h2 style={{color: 'red', fontSize: 14}}>{cPerror}</h2>}
             </div>
           </div>
